@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue解析后台json</title>
+    <script src="../common/js/jquery-3.2.1.js"></script>
+    <script src="../common/js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="item in items" style="float:left;margin-left:20px">
+            <a :href="'http://www.123.com/article?id='+item.id">
+               <p>
+            <img style="max-width: 200px;max-height: 200px" v-bind:src="item.imgurl+'/static/image/1.jpg'">
+        </p>
+                <p>{{item.name}}</p>
+            </a>
+        </li>
+    </ul>
+</div>
+<script>
+    $(function () {
+        var arr;
+        $.ajax({
+            type: "post",
+            url: "http://" + document.domain + "/vue?action=list",
+            success: function (res) {
+                var ares = eval("(" + res + ")");
+                arr = ares;
+                var app = new Vue({
+                    el: "#app",
+                    data: {
+                        items: arr,
+                    }
+                })
+            }
+        })
+    })
+</script>
+</body>
+</html>
